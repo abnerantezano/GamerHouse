@@ -19,7 +19,7 @@ function App() {
             <Route exact path='/' element={<Inicio />} />
             <Route exact path='/productos' element={<Productos />} />
             <Route exact path='/producto/:id' element={<DetalleProducto />} />
-            <Route exact path='/compra' element={<Carrito />} />
+            <Route exact path='/compra/:id' element={<Carrito />} />
           </Routes>
         </div>
         <Pie/>

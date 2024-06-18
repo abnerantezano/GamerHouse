@@ -1,33 +1,105 @@
-import React, { useEffect } from 'react'
-import Carrito_vacio from '../Imagenes/carrito_vacio.png'
-//PRIME REACT
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import Carrito_vacio from '../Imagenes/carrito_vacio.png';
+// FONT AWESOME
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark} from '@fortawesome/free-solid-svg-icons';
+//PPRIME REACT
 import { DataView } from 'primereact/dataview';
-import CompraService from '../Servicios/CompraService';
-import { Link } from 'react-router-dom';
+//SERVICIOS
+import CarritoService from '../Servicios/CarritoService';
 
 function Carrito() {
+    const { id } = useParams();
+    const [productos, setProductos] = useState([]);
+    const [carrito, setCarrito] = useState(null);
+    const [cantidades, setCantidades] = useState({});
 
-    const [productos, setProductos] = ([]);
+    const cargarDatos = () => {
+        CarritoService.getItems(id)
+            .then((response) => {
+                setCarrito(response);
+                setProductos(response.items);
+                const cantidadesIniciales = response.items.reduce((acc, item) => {
+                    acc[item.producto.id] = item.cantidad;
+                    return acc;
+                }, {});
+                setCantidades(cantidadesIniciales);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
     useEffect(() => {
-        CompraService.getItems()
-        .then((CompraResponse) => {
-            setProductos(CompraResponse);
-        })
-        .catch((error) => {
-            console.error(error);
-        })
-    })
+        cargarDatos();
+    }, [id]);
 
-    const listTemplate = (producto, index) => (
-        <div key={index} className="w-full bg-white border border-gray-200 rounded-lg shadow m-4">
-          <img className="rounded-t-lg" src="https://www.questionpro.com/blog/wp-content/uploads/2022/10/Portada-calidad-del-producto.jpg" alt="Imagen del producto" />
-          <div className="p-5">
-            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{producto.nombre}</h5>
-            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{producto.descripcion}</p>
-          </div>
+    const actualizarCantidad = (productoId, nuevaCantidad) => {
+        const campos = { cantidad: nuevaCantidad };
+        CarritoService.patchItem(1, productoId, campos)
+            .then((response) => {
+                console.log(response);
+                // Actualizar el estado de las cantidades
+                setCantidades(prevCantidades => ({
+                    ...prevCantidades,
+                    [productoId]: nuevaCantidad
+                }));
+                cargarDatos();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const aumentar = (productoId) => {
+        const nuevaCantidad = cantidades[productoId] + 1;
+        setCantidades(prevCantidades => ({
+            ...prevCantidades,
+            [productoId]: nuevaCantidad
+        }));
+        actualizarCantidad(productoId, nuevaCantidad);
+    };
+
+    const disminuir = (productoId) => {
+        const nuevaCantidad = Math.max(cantidades[productoId] - 1, 0);
+        setCantidades(prevCantidades => ({
+            ...prevCantidades,
+            [productoId]: nuevaCantidad
+        }));
+        actualizarCantidad(productoId, nuevaCantidad);
+    };
+
+    const eliminarItem = (itemId) => {
+        CarritoService.deleteItem(1,itemId)
+            .then((response) => {
+                console.log(response);
+                cargarDatos();
+                alert("Producto eliminado");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
+
+    const listTemplate = (item, index) => (
+        <div key={index} className="w-full grid grid-cols-6 gap-4 items-center justify-center text-start px-4 pt-6 pb-4 relative">
+            <img className="w-full h-36 object-cover rounded-md" src={`http://3.89.122.197:8000/${item.producto.imagen}`} alt={item.producto.nombre} />
+            <h1 className='text-sm col-span-2'>{item.producto.nombre} {item.id}</h1>
+            <p className='text-start w-full'>S/ {item.producto.precio}</p>
+            <div className='w-full flex flex-wrap items-center'>
+                <button type='button' onClick={() => disminuir(item.producto.id)} className='bg-indigo-600 p-2 text-white rounded-l'>-</button>
+                <p className='p-2 border-t border-b'>{cantidades[item.producto.id]}</p>
+                <button type='button' onClick={() => aumentar(item.producto.id)} className='bg-indigo-600 p-2 text-white rounded-r'>+</button>
+            </div>
+            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">S/ {parseFloat(item.precio_subtotal).toFixed(2)}</p>
+            <button type="button" onClick={() => eliminarItem(item.id)} className='absolute z-10 right-4 top-6'><FontAwesomeIcon icon={faXmark} /></button>
         </div>
-      );
+    );
+
+    const finalizarCompra = () => {
+        alert("Compra realiza con éxito");
+    };
 
     return (
         <div>
@@ -43,24 +115,55 @@ function Carrito() {
             <div className='bg-white'>
                 <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 pt-16'>
                     <div className='container mx-auto flex flex-wrap items-center pt-16'>
-                        <div className='w-full'>
-                            {productos && productos.length === 0 ? (
-                                <div className='w-full px-24 flex flex-wrap items-center justify-center '> 
+                        <div className='w-full pb-32'>
+                            {productos.length === 0 ? (
+                                <div className='w-full px-24 flex flex-wrap items-center justify-center '>
                                     <img className="w-1/2" src={Carrito_vacio} alt='imagen' />
-                                    <div className='w-1/2 flex flex-col items-end justify-end'>
-                                    <h1 className='text-2xl mb-4 text-end'>Tu carrito de compras está vacío en este momento. ¡Agrega algunos productos y comienza a llenarlo!</h1>
-                                    <Link to="/productos" className='text-white bg-[#2b2164] p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver productos</Link>
+                                    <div className='w-1/2 flex flex-col items-end'>
+                                        <h1 className='text-2xl mb-4 text-end'>Tu carrito de compras está vacío en este momento. ¡Agrega algunos productos y comienza a llenarlo!</h1>
+                                        <Link to="/productos" className='text-white bg-[#2b2164] p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver productos</Link>
                                     </div>
                                 </div>
-                                ) : (
-                                <DataView value={productos} className="bg-transparent" pt={{ paginator: 'bg-red-500', content: 'bg-transparent text-sm', grid: 'bg-transparent' }} itemTemplate={listTemplate} paginator paginatorClassName="bg-transparent text-gray-500" rows={5} />
+                            ) : (
+                                <div className='flex flex-wrap items-start justify-between'>
+                                    <div className="w-8/12 border rounded-lg p-4 shadow-lg">
+                                        <div className='w-full grid grid-cols-6 gap-4 items-center justify-center text-start font-bold px-4 pt-2 pb-4'>
+                                            <h1 className='col-span-3'>Producto</h1>
+                                            <h1 className='w-full'>Precio</h1>
+                                            <h1 className=''>Cantidad</h1>
+                                            <h1>Subtotal</h1>
+                                        </div>
+                                        <hr className='w-full '/>
+                                        <div>
+                                            <DataView value={productos} className="bg-transparent" pt={{ content: 'bg-transparent text-sm', grid: 'bg-transparent' }} itemTemplate={listTemplate} paginator paginatorClassName="bg-transparent text-gray-500 p-4" rows={4} />
+                                        </div>
+                                    </div>
+                                    <div className='w-4/12 px-6'>
+                                        <div className='border rounded-lg p-4 shadow-lg'>
+                                            <div className='flex flex-wrap justify-between items-center'>
+                                                <p className='text-gray-400'>Subtotal </p>
+                                                <p>S/ {parseFloat(carrito.precio_total).toFixed(2)}</p>
+                                            </div>
+                                            <div className='flex flex-wrap justify-between items-center mt-2 mb-4'>
+                                                <p className='text-gray-400'>Descuento </p>
+                                                <p>No tiene cupón</p>
+                                            </div>
+                                            <hr className='w-full'/>
+                                            <div className='flex flex-wrap justify-between items-center my-4'>
+                                                <p className='text-gray-400'>Total: </p>
+                                                <p>S/ {parseFloat(carrito.precio_total).toFixed(2)}</p>
+                                            </div>
+                                            <button onClick={finalizarCompra} className='w-full bg-indigo-700 rounded-lg p-2 text-white'>Ir a pagar</button>
+                                        </div>
+                                    </div>
+                                </div>
                             )}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default Carrito
+export default Carrito;

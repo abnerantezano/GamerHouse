@@ -7,8 +7,8 @@ function ItemsCarrusel() {
         {
             id: 1,
             titulo: "TECLADO G715 TKL",
-            desc1 : "MEJORA",
-            desc2: "TU JUEGO",
+            desc1 : "ESCRIBE",
+            desc2: "SIN LÍMITES",
             imagenUrl: 'https://resource.logitech.com/content/dam/gaming/en/products/keyboards/g715-wireless-keyboard/gallery/g715-gallery-1.png',
             tipo : "item1"
         },
@@ -22,10 +22,10 @@ function ItemsCarrusel() {
         },
         {
             id: 3,
-            titulo: "TECLADO G715 TKL",
-            desc1 : "MEJORA",
-            desc2: "TU JUEGO",
-            imagenUrl: 'https://resource.logitech.com/content/dam/gaming/en/products/keyboards/g715-wireless-keyboard/gallery/g715-gallery-1.png',
+            titulo: "ECHO DOT (5ª generación)",
+            desc1 : "MEJORA TU",
+            desc2: "EXPERIENCIA",
+            imagenUrl: 'https://todoaplazo.com/images/products/0bfbdbd8-a429-466d-9d8a-be3b5bbd16d2-AMAZON-48.png',
             tipo : "item3"
         },
     ];

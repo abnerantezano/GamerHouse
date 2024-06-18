@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class ProductosService {
-    baseUrl = 'http://127.0.0.1:8000/api/v1/productos';
+    baseUrl = 'http://3.89.122.197:8000/api/v1/productos';
 
     getProductos() {
         return axios.get(this.baseUrl)

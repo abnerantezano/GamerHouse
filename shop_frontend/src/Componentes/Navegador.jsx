@@ -37,7 +37,7 @@ function Navegador() {
                                 </Link>
                             </li>
                         </ul>
-                            <Link to="/compra" className="text-[#3b266b] bg-white hover:bg-[#3b266b] hover:text-white focus:ring-4 focus:outline-none focus:ring-[#FCE6D8] font-medium rounded-lg text-sm px-4 py-2 text-center"><span><FontAwesomeIcon icon={faCartShopping} /></span> </Link>
+                            <Link to={`/compra/${1}`} className="text-[#3b266b] bg-white hover:bg-[#3b266b] hover:text-white focus:ring-4 focus:outline-none focus:ring-[#e8d8fc] font-medium rounded-lg text-sm px-4 py-2 text-center"><span><FontAwesomeIcon icon={faCartShopping} /></span> </Link>
                         </div>
                     </div>
                 </nav>

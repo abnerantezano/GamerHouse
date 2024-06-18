@@ -10,6 +10,7 @@ import logo_razer from '../Imagenes/Logos/logo-razer.png'
 import logo_hyperx from '../Imagenes/Logos/logo-hyperx.png'
 import logo_intel from '../Imagenes/Logos/logo-intel.png'   
 import CategoriasService from '../Servicios/CategoriasService'
+import { Link } from 'react-router-dom'
 
 const logos = [
     logo_amd,
@@ -45,7 +46,7 @@ function Inicio() {
                             <h2 className='text-white text-3xl mb-3 font-bold'>Logitech</h2>
                             <h1 className='text-[#2b2164] xl:text-6xl font-bold xl:mb-3'>THE AURORA COLLECTION</h1>
                             <p className='xl:text-xl xl:mb-4 pb-4 text-white'>Comodidad y ajuste con los G735, compatibles con LIGHTSPEED y Bluetooth®.</p>
-                            <a href="/producto" className='text-white bg-[#2b2164] p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</a>
+                            <Link to="/producto" className='text-white bg-[#2b2164] p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</Link>
                         </div>
                         <div className='w-1/2 float contenedor'>
                             <div class="float">
@@ -65,15 +66,19 @@ function Inicio() {
                             {categorias.map((categoria) => (
                                 <div key={categoria.id} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden group">
                                     <div className='relative'>
-                                        <a href="#" className="block">
-                                            <img className="rounded-t-lg w-full" src={categoria.imagen} alt={categoria.nombre} />
+                                        <Link to={`/productos?categoria=${parseInt}`} className="block">
+                                            <img 
+                                                className="w-full h-64 object-cover" 
+                                                src={`http://3.89.122.197:8000/${categoria.imagen}`} 
+                                                alt={categoria.nombre} 
+                                            />
                                             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                                 <h5 className="text-2xl font-bold text-white text-center">{categoria.nombre}</h5>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </div>
                                     <div className="p-5 text-center hover:bg-black hover:text-white relative">
-                                            {categoria.productos} productos
+                                        {categoria.productos} productos
                                         <div className="absolute inset-0 bg-[#2b2164] text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                             {categoria.productos} productos
                                         </div>

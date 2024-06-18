@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-//FONT AWESOME
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
-//SERVICIOS
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+// FONT AWESOME
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
+// SERVICIOS
 import ProductosService from '../Servicios/ProductosService';
 import CategoriasService from '../Servicios/CategoriasService';
-//COMPONENTES
-import CompraService from '../Servicios/CompraService';
+// COMPONENTES
+import CarritoService from '../Servicios/CarritoService';
 import ItemsCarrusel from '../Componentes/ItemsCarrusel';
 
 function Productos() {
 
-    //LISTAS
+    // LISTAS
     const [categorias, setCategorias] = useState([]);
     const [productos, setProductos] = useState([]);
 
-    //LISTAS FILTRADAS
+    // LISTAS FILTRADAS
     const [productosFiltrados, setProductosFiltrados] = useState([]);
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
 
-    //RANGO DE PRECIOS
+    // RANGO DE PRECIOS
     const [precioMin, setPrecioMin] = useState('');
     const [precioMax, setPrecioMax] = useState('');
+
+    // PRODUCTOS SELECCIONADOS
+    const [carrito, setCarrito] = useState([]);
+    const [nuevoItem, setNuevoItem] = useState([]);
 
     useEffect(() => {
         // CATEGORIAS
@@ -43,14 +47,27 @@ function Productos() {
             .catch((error) => {
                 console.log(error);
             });
+        
+        cargarDatos();
+            
     }, []);
 
-    //FILTRAR SEGÚN CAMBIOS
+    const cargarDatos = () => {
+        CarritoService.getItems(1)
+            .then((ItemsResponse) => {
+                setCarrito(ItemsResponse.items);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+    }
+
+    // FILTRAR SEGÚN CAMBIOS
     useEffect(() => {
         filtrarProductos();
     }, [categoriaSeleccionada, precioMin, precioMax]);
 
-    //ACCIÓN DE FILTRADO
+    // ACCIÓN DE FILTRADO
     const filtrarProductos = () => {
         let productosFiltrados = productos;
 
@@ -69,7 +86,7 @@ function Productos() {
         }
     };
 
-    //FILTRO DE PRECIO
+    // FILTRO DE PRECIO
     const aplicarFiltroPorPrecio = (productosFiltrados) => {
         let productosFiltradosPorPrecio = productosFiltrados;
 
@@ -88,7 +105,7 @@ function Productos() {
         setProductosFiltrados(productosFiltradosPorPrecio);
     };
 
-    //VER LOS CAMBIOS DE CATEGORIAS SELECCIONADAS
+    // VER LOS CAMBIOS DE CATEGORIAS SELECCIONADAS
     const handleCategoriaChange = (e) => {
         const value = parseInt(e.target.value);
         if (categoriaSeleccionada === value.toString()) {
@@ -100,8 +117,7 @@ function Productos() {
         }
     };
 
-
-    //VER LOS CAMBIOS PARA EL FILTRO
+    // VER LOS CAMBIOS PARA EL FILTRO
     const handlePrecioMinChange = (e) => {
         setPrecioMin(e.target.value);
     };
@@ -110,27 +126,50 @@ function Productos() {
         setPrecioMax(e.target.value);
     };
 
-    //FUNCIÓN DE AGREGAR AL CARRITO
-
+    // FUNCIÓN DE AGREGAR AL CARRITO
     const AgregarCarrito = (producto) => {
-        const itemsAgregar = [{
-            
-        }]
-
-        CompraService.postItems(itemsAgregar)
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
+        const productoEnCarrito = carrito && carrito.find(item => item.producto.id === producto.id);
+    
+        if (productoEnCarrito) {
+            const nuevoCarrito = carrito.map(item => {
+                if (item.producto.id === producto.id) {
+                    return { ...item, cantidad: item.cantidad + 1 };
+                }
+                return item;
             });
+
+            //ACTUALIZAR CANTIDAD
+            CarritoService.patchItem(1, productoEnCarrito.id, { cantidad: productoEnCarrito.cantidad + 1 })
+                .then(response => {
+                    console.log(response);
+                    setCarrito(nuevoCarrito);
+                    alert("Producto agregado con éxito");
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        } else {
+            // Si el producto no está en el carrito, lo agregamos
+            const nuevoCarrito = [...nuevoItem, { carrito:1, producto: producto.id, cantidad: 1}];
+            console.log(nuevoCarrito);
+            // Enviar los items del carrito al servicio
+            CarritoService.postItem(1, nuevoCarrito)
+                .then(response => {
+                    console.log(response);
+                    cargarDatos();
+                    alert("Producto agregado con éxito");
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
     };
 
     return (
         <div>
             <ItemsCarrusel />
             <div className='bg-white'>
-                <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 pt-16">
+                <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 py-16">
                     <div className="flex flex-wrap justify-start w-full">
                         <div className="col-span-12 md:col-span-3 w-3/12 border rounded-lg">
                             <div className="box rounded-xl bg-white p-6">
@@ -180,9 +219,9 @@ function Productos() {
                         </div>
                         <div className='w-9/12 h-auto px-10 grid grid-cols-3 gap-4'>
                             {productosFiltrados.map((producto) => (
-                                <div key={producto.id} className="w-full">
+                                <div key={producto.id} className="w-full mb-10">
                                     <Link to={`/producto/${producto.id}`} className="relative block h-48 overflow-hidden rounded">
-                                        <img alt={producto.nombre} className="block h-full w-full object-cover object-center cursor-pointer" src={producto.imagen} />
+                                        <img alt={producto.nombre} className="block h-full w-full object-cover object-center cursor-pointer" src={`http://3.89.122.197:8000/${producto.imagen}`}  />
                                     </Link>
                                     <div className="mt-4">
                                         <h3 className="title-font mb-1 text-xs tracking-widest text-gray-500">{producto.nombre}</h3>
@@ -197,7 +236,7 @@ function Productos() {
             </div>
 
         </div>
-    )
+    );
 }
 
 export default Productos;
