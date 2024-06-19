@@ -12,6 +12,8 @@ import ItemsCarrusel from '../Componentes/ItemsCarrusel';
 
 function Productos() {
 
+    const { id } = useParams();
+    
     // LISTAS
     const [categorias, setCategorias] = useState([]);
     const [productos, setProductos] = useState([]);
@@ -33,6 +35,10 @@ function Productos() {
         CategoriasService.getCategorias()
             .then((CategoriasResponse) => {
                 setCategorias(CategoriasResponse);
+                // Si hay un ID de categoría en los parámetros, selecciona esa categoría
+                if (id) {
+                    setCategoriaSeleccionada(id.toString());
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -50,7 +56,7 @@ function Productos() {
         
         cargarDatos();
             
-    }, []);
+    }, [id]); // Agregar id como dependencia para recargar cuando cambie
 
     const cargarDatos = () => {
         CarritoService.getItems(1)
@@ -221,7 +227,7 @@ function Productos() {
                             {productosFiltrados.map((producto) => (
                                 <div key={producto.id} className="w-full mb-10">
                                     <Link to={`/producto/${producto.id}`} className="relative block h-48 overflow-hidden rounded">
-                                        <img alt={producto.nombre} className="block h-full w-full object-cover object-center cursor-pointer" src={`http://3.89.122.197:8000/${producto.imagen}`}  />
+                                        <img alt={producto.nombre} className="block h-full w-full object-cover object-center cursor-pointer" src={`http://54.242.254.159:8000/${producto.imagen}`}  />
                                     </Link>
                                     <div className="mt-4">
                                         <h3 className="title-font mb-1 text-xs tracking-widest text-gray-500">{producto.nombre}</h3>

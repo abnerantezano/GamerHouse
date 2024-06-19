@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class CarritoService {
-    baseUrl = 'http://3.89.122.197:8000/api/v1/carritos';
+    baseUrl = 'http://54.242.254.159:8000/api/v1/carritos';
 
     postItem(idCarrito, items){
         return axios.post(this.baseUrl + `/${idCarrito}`, items)

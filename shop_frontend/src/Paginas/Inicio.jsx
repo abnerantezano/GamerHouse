@@ -66,10 +66,10 @@ function Inicio() {
                             {categorias.map((categoria) => (
                                 <div key={categoria.id} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 overflow-hidden group">
                                     <div className='relative'>
-                                        <Link to={`/productos?categoria=${parseInt}`} className="block">
+                                        <Link to={`/productos?categoria=${categoria.id}`} className="block">
                                             <img 
                                                 className="w-full h-64 object-cover" 
-                                                src={`http://3.89.122.197:8000/${categoria.imagen}`} 
+                                                src={`http://54.242.254.159:8000/${categoria.imagen}`} 
                                                 alt={categoria.nombre} 
                                             />
                                             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

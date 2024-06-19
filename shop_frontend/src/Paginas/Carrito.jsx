@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import Carrito_vacio from '../Imagenes/carrito_vacio.png';
 // FONT AWESOME
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark} from '@fortawesome/free-solid-svg-icons';
-//PPRIME REACT
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+//PRIME REACT
 import { DataView } from 'primereact/dataview';
 //SERVICIOS
 import CarritoService from '../Servicios/CarritoService';
@@ -21,7 +21,7 @@ function Carrito() {
                 setCarrito(response);
                 setProductos(response.items);
                 const cantidadesIniciales = response.items.reduce((acc, item) => {
-                    acc[item.producto.id] = item.cantidad;
+                    acc[item.id] = item.cantidad;  // Cambiar a usar item.id en lugar de item.producto.id
                     return acc;
                 }, {});
                 setCantidades(cantidadesIniciales);
@@ -29,21 +29,21 @@ function Carrito() {
             .catch((error) => {
                 console.error(error);
             });
-    }
+    };
 
     useEffect(() => {
         cargarDatos();
     }, [id]);
 
-    const actualizarCantidad = (productoId, nuevaCantidad) => {
+    const actualizarCantidad = (itemId, nuevaCantidad) => {
         const campos = { cantidad: nuevaCantidad };
-        CarritoService.patchItem(1, productoId, campos)
+        CarritoService.patchItem(id, itemId, campos)
             .then((response) => {
                 console.log(response);
                 // Actualizar el estado de las cantidades
                 setCantidades(prevCantidades => ({
                     ...prevCantidades,
-                    [productoId]: nuevaCantidad
+                    [itemId]: nuevaCantidad
                 }));
                 cargarDatos();
             })
@@ -52,26 +52,26 @@ function Carrito() {
             });
     };
 
-    const aumentar = (productoId) => {
-        const nuevaCantidad = cantidades[productoId] + 1;
+    const aumentar = (itemId) => {
+        const nuevaCantidad = cantidades[itemId] + 1;  // Acceder a itemId directamente
         setCantidades(prevCantidades => ({
             ...prevCantidades,
-            [productoId]: nuevaCantidad
+            [itemId]: nuevaCantidad
         }));
-        actualizarCantidad(productoId, nuevaCantidad);
+        actualizarCantidad(itemId, nuevaCantidad);
     };
 
-    const disminuir = (productoId) => {
-        const nuevaCantidad = Math.max(cantidades[productoId] - 1, 0);
+    const disminuir = (itemId) => {
+        const nuevaCantidad = Math.max(cantidades[itemId] - 1, 0);  // Acceder a itemId directamente
         setCantidades(prevCantidades => ({
             ...prevCantidades,
-            [productoId]: nuevaCantidad
+            [itemId]: nuevaCantidad
         }));
-        actualizarCantidad(productoId, nuevaCantidad);
+        actualizarCantidad(itemId, nuevaCantidad);
     };
 
     const eliminarItem = (itemId) => {
-        CarritoService.deleteItem(1,itemId)
+        CarritoService.deleteItem(id, itemId)
             .then((response) => {
                 console.log(response);
                 cargarDatos();
@@ -84,13 +84,13 @@ function Carrito() {
 
     const listTemplate = (item, index) => (
         <div key={index} className="w-full grid grid-cols-6 gap-4 items-center justify-center text-start px-4 pt-6 pb-4 relative">
-            <img className="w-full h-36 object-cover rounded-md" src={`http://3.89.122.197:8000/${item.producto.imagen}`} alt={item.producto.nombre} />
+            <img className="w-full h-36 object-cover rounded-md" src={`http://54.242.254.159:8000/${item.producto.imagen}`} alt={item.producto.nombre} />
             <h1 className='text-sm col-span-2'>{item.producto.nombre} {item.id}</h1>
             <p className='text-start w-full'>S/ {item.producto.precio}</p>
             <div className='w-full flex flex-wrap items-center'>
-                <button type='button' onClick={() => disminuir(item.producto.id)} className='bg-indigo-600 p-2 text-white rounded-l'>-</button>
-                <p className='p-2 border-t border-b'>{cantidades[item.producto.id]}</p>
-                <button type='button' onClick={() => aumentar(item.producto.id)} className='bg-indigo-600 p-2 text-white rounded-r'>+</button>
+                <button type='button' onClick={() => disminuir(item.id)} className='bg-indigo-600 p-2 text-white rounded-l'>-</button>
+                <p className='p-2 border-t border-b'>{cantidades[item.id]}</p>  {/* Cambiar a usar item.id */}
+                <button type='button' onClick={() => aumentar(item.id)} className='bg-indigo-600 p-2 text-white rounded-r'>+</button>
             </div>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">S/ {parseFloat(item.precio_subtotal).toFixed(2)}</p>
             <button type="button" onClick={() => eliminarItem(item.id)} className='absolute z-10 right-4 top-6'><FontAwesomeIcon icon={faXmark} /></button>
