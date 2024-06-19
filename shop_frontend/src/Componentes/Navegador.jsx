@@ -20,7 +20,7 @@ function Navegador() {
     const location =  useLocation();
     return (
         <div>
-            <header>
+            <header className=''>
                 <nav className=" w-full fixed top-0 left-0 z-10 bg-transparent">
                     <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                         <a href="/"><img src="https://see.fontimg.com/api/renderfont4/X3jd2/eyJyIjoiZnMiLCJoIjo2NSwidyI6MTAwMCwiZnMiOjY1LCJmZ2MiOiIjRkZGRkZGIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/R2FtZXJIb3VzZQ/bruce-forever-regular.png" className="w-3/12" alt="Logo"/></a>

@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Carrito_vacio from '../Imagenes/carrito_vacio.png';
 // FONT AWESOME
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 //PRIME REACT
 import { DataView } from 'primereact/dataview';
 //SERVICIOS
@@ -84,7 +84,7 @@ function Carrito() {
 
     const listTemplate = (item, index) => (
         <div key={index} className="w-full grid grid-cols-6 gap-4 items-center justify-center text-start px-4 pt-6 pb-4 relative">
-            <img className="w-full h-36 object-cover rounded-md" src={`http://54.242.254.159:8000/${item.producto.imagen}`} alt={item.producto.nombre} />
+            <img className="w-full h-36 object-cover rounded-md" src={`https://gamerhouse-260ba47e0100.herokuapp.com/${item.producto.imagen}`} alt={item.producto.nombre} />
             <h1 className='text-sm col-span-2'>{item.producto.nombre} {item.id}</h1>
             <p className='text-start w-full'>S/ {item.producto.precio}</p>
             <div className='w-full flex flex-wrap items-center'>
@@ -98,7 +98,16 @@ function Carrito() {
     );
 
     const finalizarCompra = () => {
-        alert("Compra realiza con éxito");
+        productos.forEach(producto => {
+            window.Snipcart.api.cart.items.add({
+                id: producto.producto.id,
+                name: producto.producto.nombre,
+                price: parseFloat(producto.producto.precio).toFixed(2),
+                url: window.location.origin + `/producto/${producto.producto.id}`,
+                image: `https://gamerhouse-260ba47e0100.herokuapp.com/${producto.producto.imagen}`,
+                quantity: cantidades[producto.id]
+            });
+        });
     };
 
     return (

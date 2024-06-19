@@ -169,6 +169,7 @@ function Productos() {
                     console.log(error);
                 });
         }
+
     };
 
     return (
@@ -227,7 +228,7 @@ function Productos() {
                             {productosFiltrados.map((producto) => (
                                 <div key={producto.id} className="w-full mb-10">
                                     <Link to={`/producto/${producto.id}`} className="relative block h-48 overflow-hidden rounded">
-                                        <img alt={producto.nombre} className="block h-full w-full object-cover object-center cursor-pointer" src={`http://54.242.254.159:8000/${producto.imagen}`}  />
+                                        <img alt={producto.nombre} className="block h-full w-full object-cover object-center cursor-pointer" src={`https://gamerhouse-260ba47e0100.herokuapp.com/${producto.imagen}`}  />
                                     </Link>
                                     <div className="mt-4">
                                         <h3 className="title-font mb-1 text-xs tracking-widest text-gray-500">{producto.nombre}</h3>

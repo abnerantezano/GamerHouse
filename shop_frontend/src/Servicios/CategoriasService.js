@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export class CategoriasService {
-    baseUrl = 'http://54.242.254.159:8000/api/v1/categorias';
+    baseUrl = 'https://gamerhouse-260ba47e0100.herokuapp.com/api/v1/categorias';
 
     getCategorias() {
         return axios.get(this.baseUrl)
