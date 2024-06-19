@@ -1,5 +1,6 @@
 import React from 'react'
 import Carrusel from './Carrusel';
+import ellie from '../Imagenes/Carrusel/ellie.png'
 
 function ItemsCarrusel() {
     //VALORES DEL CARRUSEL
@@ -14,10 +15,10 @@ function ItemsCarrusel() {
         },
         {
             id: 2,
-            titulo: "Call Of Duty MODERN WARFARE PS4",
+            titulo: "The Last Of Us PART II",
             desc1 : "POTENCIA",
             desc2: "TU AVENTURA",
-            imagenUrl: 'https://i0.wp.com/www.langamingstore.com/wp-content/uploads/2019/10/Call-of-Duty-Modern-Warfare-PS4.png?fit=1000%2C1250&ssl=1',
+            imagenUrl: 'https://i.postimg.cc/CLMDPVzV/ELLIE.png',
             tipo : "item2"
         },
         {

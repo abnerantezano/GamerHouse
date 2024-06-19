@@ -42,16 +42,18 @@ const Carrusel = ({ slides }) => {
             );
         case 'item2':
             return (
-            <div className='banner2 flex flex-wrap items-center justify-between py-10'>
-                <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 pt-16'>
-                    <div className='w-8/12'>
-                        <p className='text-white text-2xl fira-sans-condensed-semibold mt-12'>{slide.titulo}</p>
-                        <h1 className='text-white text-6xl rubik mt-4'>{slide.desc1}</h1>
-                        <h1 className='text-white text-6xl rubik mt-4 mb-6'>{slide.desc2}</h1>
-                        <Link to="/producto/9" className=' text-white mb-10 bg-degradado p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</Link>
-                    </div>
-                    <div className='w-4/12'>
-                        <img className="float" src={slide.imagenUrl} alt='Producto' />
+            <div className='banner2 items-center justify-between py-10'>
+                <div className='max-w-screen-xl items-center justify-start mx-auto p-4 pt-24'>
+                    <div className='w-full flex flex-wrap items-center justify-center mx-auto'>
+                        <div className='w-2/12'>
+                            <img className="float" src={slide.imagenUrl} alt='Producto' />
+                        </div>
+                        <div className='w-1/2 pl-48'>
+                            <p className='text-white text-2xl fira-sans-condensed-semibold mt-12'>{slide.titulo}</p>
+                            <h1 className='text-white text-6xl rubik mt-4'>{slide.desc1}</h1>
+                            <h1 className='text-white text-6xl rubik mt-4 mb-6'>{slide.desc2}</h1>
+                            <Link to="/producto/17" className=' text-white mb-10 bg-degradado p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,20 +61,20 @@ const Carrusel = ({ slides }) => {
         case 'item3':
             return (
                 <div className='banner3 items-center justify-between py-10'>
-                <div className='max-w-screen-xl items-center justify-between mx-auto p-4 pt-48'>
-                    <div className='w-full flex flex-wrap items-center justify-between mx-auto'>
-                        <div className='w-8/12'>
-                            <p className='text-white text-2xl fira-sans-condensed-semibold mt-12'>{slide.titulo}</p>
-                            <h1 className='text-white text-6xl rubik mt-4'>{slide.desc1}</h1>
-                            <h1 className='text-white text-6xl rubik mt-4 mb-6'>{slide.desc2}</h1>
-                            <Link to="/producto/17" className=' text-white mb-10 bg-degradado p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</Link>
-                        </div>
-                        <div className='w-4/12'>
-                            <img className="float" src={slide.imagenUrl} alt='Producto' />
+                    <div className='max-w-screen-xl items-center justify-between mx-auto p-4 pt-48'>
+                        <div className='w-full flex flex-wrap items-center justify-between mx-auto'>
+                            <div className='w-8/12'>
+                                <p className='text-white text-2xl fira-sans-condensed-semibold mt-12'>{slide.titulo}</p>
+                                <h1 className='text-white text-6xl rubik mt-4'>{slide.desc1}</h1>
+                                <h1 className='text-white text-6xl rubik mt-4 mb-6'>{slide.desc2}</h1>
+                                <Link to="/producto/17" className=' text-white mb-10 bg-degradado p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</Link>
+                            </div>
+                            <div className='w-4/12'>
+                                <img className="float" src={slide.imagenUrl} alt='Producto' />
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             );
         default:
             return null;

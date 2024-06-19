@@ -81,7 +81,7 @@ function Detalle_producto() {
                 <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 py-8'>
                     <div className='grid grid-cols-1 md:grid-cols-2 w-full py-16 md:py-32 lg:py-54 items-center'>
                         <div className='w-4/6'>
-                            <img className="w-full" src={`http://3.89.122.197:8000/${producto.imagen}`} alt={producto.nombre}/>
+                            <img className="w-full" src={`https://gamerhouse-260ba47e0100.herokuapp.com/${producto.imagen}`} alt={producto.nombre}/>
                         </div>
                         <div className='w-5/6'>
                             <h1 className='font-bold text-4xl mb-4'>{producto.nombre}</h1>

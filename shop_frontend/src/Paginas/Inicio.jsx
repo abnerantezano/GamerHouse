@@ -39,14 +39,14 @@ function Inicio() {
 
     return (
         <div>
-            <div className=''>
+            <div className='bg-index'>
                 <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 pt-16'>
                     <div className='container mx-auto flex flex-wrap items-center pt-16'>
                         <div className='w-1/2 pr-16'>
                             <h2 className='text-white text-3xl mb-3 font-bold'>Logitech</h2>
-                            <h1 className='text-[#2b2164] xl:text-6xl font-bold xl:mb-3'>THE AURORA COLLECTION</h1>
+                            <h1 className='text-[#dfc5f7] xl:text-6xl font-bold xl:mb-3'>THE AURORA COLLECTION</h1>
                             <p className='xl:text-xl xl:mb-4 pb-4 text-white'>Comodidad y ajuste con los G735, compatibles con LIGHTSPEED y Bluetooth®.</p>
-                            <Link to="/producto" className='text-white bg-[#2b2164] p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</Link>
+                            <Link to="/producto/4" className='text-white bg-[#2b2164] p-3 rounded-lg xl:text-base hover:bg-[#443679] focus:ring-4 focus:ring-[#2b2164]'>Ver producto</Link>
                         </div>
                         <div className='w-1/2 float contenedor'>
                             <div class="float">

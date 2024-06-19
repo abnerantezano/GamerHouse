@@ -39,7 +39,7 @@ code {
   height: 52rem; 
 }
 
-.banner1, .banner2, .banner3 {
+.banner1, .banner2, .banner3, bg-index {
   position: absolute;
   top: 0;
   left: 0;
@@ -48,6 +48,10 @@ code {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.bg-index {
+  background-image: url(./Imagenes/bg-index.png);
 }
 
 .banner1 {
