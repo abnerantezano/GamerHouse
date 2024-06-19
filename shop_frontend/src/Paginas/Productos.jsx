@@ -13,7 +13,7 @@ import ItemsCarrusel from '../Componentes/ItemsCarrusel';
 function Productos() {
 
     const { id } = useParams();
-    
+    console.log(id);
     // LISTAS
     const [categorias, setCategorias] = useState([]);
     const [productos, setProductos] = useState([]);
