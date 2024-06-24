@@ -8,6 +8,8 @@ import Inicio from './Paginas/Inicio';
 import Productos from './Paginas/Productos';
 import Carrito from './Paginas/Carrito';
 import DetalleProducto from './Paginas/Detalle_producto';
+import IniciarSesion from './Paginas/IniciarSesion';
+import Registro from './Paginas/Registro';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <div>
           <Routes>
             <Route exact path='/' element={<Inicio />} />
+            <Route exact path='/iniciar-sesion/' element={<IniciarSesion />} />
+            <Route exact path='/registro' element={<Registro />}/>
             <Route exact path='/productos/:id' element={<Productos />} />
             <Route exact path='/productos' element={<Productos />} />
             <Route exact path='/producto/:id' element={<DetalleProducto />} />

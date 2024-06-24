@@ -35,6 +35,7 @@ function Productos() {
         CategoriasService.getCategorias()
             .then((CategoriasResponse) => {
                 setCategorias(CategoriasResponse);
+                
                 // Si hay un ID de categoría en los parámetros, selecciona esa categoría
                 if (id) {
                     setCategoriaSeleccionada(id.toString());

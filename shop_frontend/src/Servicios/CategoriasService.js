@@ -4,7 +4,7 @@ export class CategoriasService {
     baseUrl = 'https://gamerhouse-260ba47e0100.herokuapp.com/api/v1/categorias';
 
     getCategorias() {
-        return axios.get(this.baseUrl)
+        return axios.get(this.baseUrl,{withCredentials:true})
             .then(res => res.data); 
     }
 
